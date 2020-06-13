@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;800&display=swap');
 
 body {
     background-attachment: fixed;
@@ -8,59 +8,67 @@ body {
     font-family: 'Playfair-Display', serif;
     font-size: 12px;
     margin-top: 15px;
-
-}
-
-.wrapper {
-    /* background-color: #FFF; */
-    margin: auto;
-    width: 90%;
-    /* border: 1px solid #011420; */
 }
 
 .header-wrapper {
     border: 3px solid #011420;
     border-bottom: 0;
+    border-radius: 5px 5px 0 0;
+    margin: auto;
+    width: 90%;
 }
 
 .bookmark-wrapper {
     border: 3px solid #011420;
     border-top: 0;
-}
-
-.group {
-    display: flex;
-    flex-flow: column wrap;
+    border-radius: 0 0 5px 5px;
     margin: auto;
-    /* margin-top: 12px; */
-    padding: 10px;
     width: 90%;
-    /* border: 1px solid red; */
-}
-
-.group-row {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    width: 95%;
-    margin: auto;
-    /* border: 1px solid blue; */
 }
 
 .header-group {
     background-color: #FFF;
     border: 2px solid #011420;
-    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-flow: column wrap;
+    margin: auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding: 10px;
+    width: 90%;
 }
 
 .bookmark-group {
     background-color: #FFF;
     border: 2px solid #011420;
+    border-radius: 5px;
+    display: flex;
+    flex-flow: column wrap;
+    margin: auto;
     margin-bottom: 10px;
+    padding: 10px;
+    width: 90%;
 }
 
-.full-width {
+.control-group-row {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    padding: 10px;
+    margin: auto;
+    width: 90%;
+}
+
+.bookmark-group-row {
+    border-radius: 3px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    /* padding: 10px; */
     width: 100%;
+    margin: auto;
+    /* border: 1px solid blue; */
 }
 
 .item {
@@ -86,36 +94,60 @@ body {
 
 h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: 800;
     margin: 0;
     text-align: center;
 }
 
 h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 600;
     margin: 0;
     text-align: center;
 }
 
 p {
     font-family: 'Playfair Display', serif;
-    font-size: 14px;
-    margin: 0;
+    font-size: 12px;
+    margin: 2px;
     text-align: center;
 }
 
+a {
+    color: #011420;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 button {
-    background-color: #FFF;
+    /* background-color: #FFF; */
     border: 2px solid #011420;
+    border-radius: 5px;
     font-family: 'Playfair Display', serif;
-    font-size: 12px;
+    font-size: 10px;
     padding: 5px;
 
 }
 
 button:hover {
-    background-color: #f1f1f1;
+    background-color: #011420;
+    color: #FFF;
+}
+
+/* Form Styles */
+form > label, input, select, textarea {
+    margin: 2px;
+}
+
+form > .error {
+    border: 2px solid #C70039;
+    border-radius: 5px;
+    color: #c70039; 
 }
 
 footer div.group {
@@ -128,35 +160,12 @@ footer div.group {
 
     body {
         margin-top: 20px;
-        font-size: 14px;
+        font-size: 16px;
     }
 
-    .wrapper {
+    .header-wrapper, .bookmark-wrapper {
         margin: auto;
         width: 50%;
-        /* border: 1px solid #011420; */
-    }
-
-    .group {
-        margin: auto;
-        /* margin-top: 10px; */
-        width: 95%;
-    }
-
-    .group-row {
-        margin: auto;
-        /* margin-top: 10px; */
-        width: 95%;
-    }
-
-    .full-width {
-        width: 100%;
-    }
-
-    .bookmark-group {
-        background-color: #FFF;
-        border: 2px solid #011420;
-        margin-bottom: 10px;
     }
 
     h1 {
@@ -171,10 +180,14 @@ footer div.group {
     
     p {
         font-size: 16px;
-        margin: 0;
+        margin: 5px;
     }
 
     button {
         font-size: 14px;
+    }
+
+    form > label, input, select, textarea {
+        margin: 5px;
     }
 }

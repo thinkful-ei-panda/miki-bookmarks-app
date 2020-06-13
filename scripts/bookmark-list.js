@@ -14,15 +14,15 @@ const mainHTMLGenerator = function (bookmarks) {
 const generateAddBookmarkView = function() {
     if (store.error) {
         return `
-        <div class="wrapper">
-            <form class="group bookmark-group" id="js-add-bookmark-form">
-                <div class="item">
+        <div class="bookmark-wrapper">
+            <form class="bookmark-group" id="js-add-bookmark-form">
+                <div class="error item">
                     <p class="left">*Something's not quite right: ${store.error}</p>
                 </div>
                 <label class="item" for="title">Title</label>
                 <input class="item" id ="title" name="title" placeholder="Title" type="text" required>
                 <label class="item" for="rating">Rating</label>
-                <select id="rating" name="rating">
+                <select class="item" id="rating" name="rating">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -41,12 +41,12 @@ const generateAddBookmarkView = function() {
     };
 
     return `
-    <div class="wrapper">
-            <form class="group bookmark-group" id="js-add-bookmark-form">
+    <div class="bookmark-wrapper">
+            <form class="bookmark-group" id="js-add-bookmark-form">
                 <label class="item" for="title">Title</label>
                 <input class="item" id ="title" name="title" placeholder="Title" type="text" required>
                 <label class="item" for="rating">Rating</label>
-                <select id="rating" name="rating">
+                <select class="item" id="rating" name="rating">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -69,8 +69,8 @@ const generateBookmarksView = function (bookmarks) {
     const bookmarksViewElements = bookmarks.map(bookmark => {
         if (bookmark.expand) {
             return `
-            <div class="group bookmark-group">
-                <div class="group-row full-width">
+            <div class="bookmark-group">
+                <div class="bookmark-group-row full-width">
                     <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
                     <div class="right">
                         <button class="js-delete">Delete</button>
@@ -81,7 +81,7 @@ const generateBookmarksView = function (bookmarks) {
                     <p class="js-bookmark-element left" id="${bookmark.id}">${bookmark.rating}</p>
                 </div>
                 <div class="item">
-                    <a href="${bookmark.url}" id="${bookmark.id}">${bookmark.url}</a>
+                    <p class="js-bookmark-element left"><a href="${bookmark.url}" id="${bookmark.id}">${bookmark.url}</a></p>
                 </div>
                 <div class="item">
                     <p class="js-bookmark-element left" id="${bookmark.id}">${bookmark.desc}</p>
@@ -90,8 +90,8 @@ const generateBookmarksView = function (bookmarks) {
             `
         } else {
             return `
-            <div class="group bookmark-group">
-                <div class="group-row full-width">
+            <div class="bookmark-group">
+                <div class="bookmark-group-row">
                     <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
                     <p class="align-self js-bookmark-element" id="${bookmark.id}">Rating: ${bookmark.rating}</p>
                     <div class="right">
@@ -104,7 +104,7 @@ const generateBookmarksView = function (bookmarks) {
         };
     });
     return `
-    <div class="bookmark-wrapper wrapper">
+    <div class="bookmark-wrapper">
         ${bookmarksViewElements.join('')}
     </div>
     `
@@ -148,7 +148,7 @@ const submitAddBookmarkForm = function() {
 
 const deleteBookmark = function () {
     $('.js-bookmarks-list').on('click', '.js-delete', event => {
-        const bookmarkID = $(event.currentTarget).closest('.group-row').find('.js-bookmark-element').attr('id');
+        const bookmarkID = $(event.currentTarget).closest('.bookmark-group-row').find('.js-bookmark-element').attr('id');
         const currentBookmark = store.findCurrentBookmarkByID(bookmarkID);
         store.removeBookmarkFromUIStoreDatabase(currentBookmark);
         api.deleteAPI(bookmarkID);
@@ -158,7 +158,7 @@ const deleteBookmark = function () {
 
 const expandAndCollapseBookmark = function () {
     $('.js-bookmarks-list').on('click', '.js-expand-and-collapse', event => {
-        const bookmarkID = $(event.currentTarget).closest('.group-row').find('.js-bookmark-element').attr('id');
+        const bookmarkID = $(event.currentTarget).closest('.bookmark-group-row').find('.js-bookmark-element').attr('id');
         const currentBookmark = store.findCurrentBookmarkByID(bookmarkID);
         store.toggleBookmarkProperty(currentBookmark, 'expand');
         render();
