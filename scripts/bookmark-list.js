@@ -72,6 +72,7 @@ const generateBookmarksView = function (bookmarks) {
                 <div class="bookmark-group-row full-width">
                     <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
                     <div class="right">
+                        <button class="js-edit">Edit</button>
                         <button class="js-delete">Delete</button>
                         <button class="js-expand-and-collapse">Collapse</button>
                     </div>
@@ -91,9 +92,9 @@ const generateBookmarksView = function (bookmarks) {
             return `
             <div class="bookmark-group">
                 <div class="bookmark-group-row">
-                    <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
-                    <p class="align-self js-bookmark-element" id="${bookmark.id}">Rating: ${generateBookmarkRating(bookmark.rating)}</p>
+                    <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title} ${generateBookmarkRating(bookmark.rating)}</h2>
                     <div class="right">
+                        <button class="js-edit">Edit</button>
                         <button class="js-delete">Delete</button>
                         <button class="js-expand-and-collapse">Expand</button>
                     </div>
@@ -109,9 +110,9 @@ const generateBookmarksView = function (bookmarks) {
     `
 };
 
-const generateBookmarkRating = function(rating) {
+const generateBookmarkRating = function(value) {
     let bookmarkRating = ""
-    for (let i = 0; i < rating; i++) {
+    for (let i = 0; i < value; i++) {
         bookmarkRating += `<img src="images/star.jpg" alt="star">`
     }
     return bookmarkRating;
