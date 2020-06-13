@@ -19,31 +19,21 @@
     <main>
         <div class="wrapper">
             <div class="group">
-                <div class="right item">
-                    <button>add a bookmark</button>
-                </div>
-                <!-- <div class="right item">
-                    <button>expand all bookmarks</button>
-                </div>
-                <div class="right item">
-                    <button>collapse all bookmarks</button>
-                </div> -->
-            </div>
-            <div class="group">
                 <div class="group-row">
-                    <p class="condensed-title">Bookmark title here</p>
+                    <p class="js-bookmark-element" id="${bookmark.id}">Title</p>
                     <div class="right">
-                        <button class="">collapse bookmark</button>
+                        <button class="js-delete">Delete</button>
+                        <button class="js-expand-and-collapse">Collapse</button>
                     </div>
                 </div>
                 <div class="item">
-                    <p class="left">Ratings</p>
+                    <p class="js-bookmark-element left" id="${bookmark.id}">Rating</p>
                 </div>
                 <div class="item">
-                    <input class="item" id ="url" name="url" placeholder="URL" type="text">
+                    <a href="${bookmark.url}" id="${bookmark.id}">URL</a>
                 </div>
                 <div class="item">
-                    <textarea class="item" id="desc" name="desc" placeholder="Description" rows="10" type="text"></textarea>
+                    <p class="js-bookmark-element left" id="${bookmark.id}">Description</p>
                 </div>
             </div>
         </div>
