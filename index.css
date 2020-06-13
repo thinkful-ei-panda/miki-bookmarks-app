@@ -1,30 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+body {
+    background-attachment: fixed;
+    background-image: url(./images/flat-lay.jpg);
+    background-position: center;
+    background-size: cover;
+    font-family: 'Playfair-Display', serif;
+    font-size: 12px;
+    margin-top: 15px;
+
+}
+
 .wrapper {
-    width: 100%;
+    /* background-color: #FFF; */
     margin: auto;
-    border: 1px solid #000;
+    width: 90%;
+    /* border: 1px solid #011420; */
+}
+
+.header-wrapper {
+    border: 3px solid #011420;
+    border-bottom: 0;
+}
+
+.bookmark-wrapper {
+    border: 3px solid #011420;
+    border-top: 0;
 }
 
 .group {
-    width: 95%;
-    margin: auto;
-    margin-top: 10px;
     display: flex;
     flex-flow: column wrap;
-    border: 1px solid #000;
+    margin: auto;
+    /* margin-top: 12px; */
+    padding: 10px;
+    width: 90%;
+    /* border: 1px solid red; */
 }
 
 .group-row {
-    width: 100%;
-    margin: auto;
     display: flex;
     flex-flow: row;
     justify-content: space-between;
-    border: 1px solid #000;
+    width: 95%;
+    margin: auto;
+    /* border: 1px solid blue; */
+}
+
+.header-group {
+    background-color: #FFF;
+    border: 2px solid #011420;
+    margin-bottom: 10px;
+}
+
+.bookmark-group {
+    background-color: #FFF;
+    border: 2px solid #011420;
+    margin-bottom: 10px;
+}
+
+.full-width {
+    width: 100%;
 }
 
 .item {
     flex: 1;
-    border: 1px solid #000;
+    /* border: 1px solid yellow; */
+}
+
+.align-self {
+    align-self: center;
 }
 
 .center {
@@ -39,46 +84,97 @@
     text-align: right;
 }
 
-.condensed-title {
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
     margin: 0;
-    text-align: left;
+    text-align: center;
 }
 
-h1, h2, p {
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    margin: 0;
     text-align: center;
 }
 
 p {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
     margin: 0;
+    text-align: center;
+}
+
+button {
+    background-color: #FFF;
+    border: 2px solid #011420;
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    padding: 5px;
+
+}
+
+button:hover {
+    background-color: #f1f1f1;
 }
 
 footer div.group {
     background-color :#0E1A46;
     border: 1px solid bisque;
     color: bisque;
-
-
 }
 
 @media all and (min-width: 1200px) {
 
+    body {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
     .wrapper {
-        width: 50%;
         margin: auto;
-        border: 1px solid #000;
+        width: 50%;
+        /* border: 1px solid #011420; */
     }
 
     .group {
-        width: 95%;
         margin: auto;
-        margin-top: 10px;
+        /* margin-top: 10px; */
+        width: 95%;
     }
 
     .group-row {
-        width: 100%;
         margin: auto;
-        margin-top: 10px;
-       
+        /* margin-top: 10px; */
+        width: 95%;
     }
 
+    .full-width {
+        width: 100%;
+    }
+
+    .bookmark-group {
+        background-color: #FFF;
+        border: 2px solid #011420;
+        margin-bottom: 10px;
+    }
+
+    h1 {
+        font-size: 30px;
+        margin: 0;
+    }
+    
+    h2 {
+        font-size: 20px;
+        margin: 0;
+    }
+    
+    p {
+        font-size: 16px;
+        margin: 0;
+    }
+
+    button {
+        font-size: 14px;
+    }
 }

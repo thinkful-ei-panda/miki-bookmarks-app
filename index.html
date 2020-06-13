@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
     <link href="index.css" rel="stylesheet" type="text/css" />
     <title>Miki's Bookmarks App</title>
 </head>
 
 <body class="">
-    <div class="wrapper">
+    <div class="header-wrapper wrapper">
         <header class="group">
             <h1 class="item">Bookmarking Assistant</h1>
-            <p class="item">Keep all your bookmarks in one place!</p>
+            <p class="item">60% Completed</p>
         </header>
-        <div class="group">
-            <div class="right item">
-                <button class="js-add">Add Bookmark</button>
-            </div>
-            <div class="right item">
-                <label for="filter-by-rating">Filter bookmarks by rating:</label>
+        <div class="group group-row">
+            <div class="align-self item">
+                <label for="filter-by-rating">Filter:</label>
                 <select name="js-filter-by-rating" id="filter-by-rating">
                     <option value="0">Select Rating</option>
                     <option value="1">1</option>
@@ -27,6 +25,9 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
+            </div>
+            <div class="item right">
+                <button class="js-add">Add a Bookmark</button>
             </div>
         </div>
     </div>

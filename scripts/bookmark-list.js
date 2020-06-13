@@ -6,7 +6,7 @@ const mainHTMLGenerator = function (bookmarks) {
         $('.js-add').text('Cancel');
         return generateAddBookmarkView();
     } else {
-        $('.js-add').text('Add Bookmark');
+        $('.js-add').text('Add a Bookmark');
         return generateBookmarksView(bookmarks);
     };
 };
@@ -15,7 +15,7 @@ const generateAddBookmarkView = function() {
     if (store.error) {
         return `
         <div class="wrapper">
-            <form class="group" id="js-add-bookmark-form">
+            <form class="group bookmark-group" id="js-add-bookmark-form">
                 <div class="item">
                     <p class="left">*Something's not quite right: ${store.error}</p>
                 </div>
@@ -42,7 +42,7 @@ const generateAddBookmarkView = function() {
 
     return `
     <div class="wrapper">
-            <form class="group" id="js-add-bookmark-form">
+            <form class="group bookmark-group" id="js-add-bookmark-form">
                 <label class="item" for="title">Title</label>
                 <input class="item" id ="title" name="title" placeholder="Title" type="text" required>
                 <label class="item" for="rating">Rating</label>
@@ -65,15 +65,16 @@ const generateAddBookmarkView = function() {
 };
 
 const generateBookmarksView = function (bookmarks) {
+    console.log('generateBookmarksView just ran')
     const bookmarksViewElements = bookmarks.map(bookmark => {
         if (bookmark.expand) {
             return `
-            <div class="group">
-                <div class="group-row">
-                    <p class="js-bookmark-element" id="${bookmark.id}">${bookmark.title}</p>
+            <div class="group bookmark-group">
+                <div class="group-row full-width">
+                    <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
                     <div class="right">
-                        <button class="js-delete">delete</button>
-                        <button class="js-expand-and-collapse">collapse</button>
+                        <button class="js-delete">Delete</button>
+                        <button class="js-expand-and-collapse">Collapse</button>
                     </div>
                 </div>
                 <div class="item">
@@ -89,13 +90,13 @@ const generateBookmarksView = function (bookmarks) {
             `
         } else {
             return `
-            <div class="group">
-                <div class="group-row">
-                    <p class="js-bookmark-element" id="${bookmark.id}">${bookmark.title}</p>
-                    <p class="js-bookmark-element" id="${bookmark.id}">Rating: ${bookmark.rating}</p>
+            <div class="group bookmark-group">
+                <div class="group-row full-width">
+                    <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
+                    <p class="align-self js-bookmark-element" id="${bookmark.id}">Rating: ${bookmark.rating}</p>
                     <div class="right">
-                        <button class="js-delete">delete</button>
-                        <button class="js-expand-and-collapse">expand</button>
+                        <button class="js-delete">Delete</button>
+                        <button class="js-expand-and-collapse">Expand</button>
                     </div>
                 </div>
             </div>
@@ -103,7 +104,7 @@ const generateBookmarksView = function (bookmarks) {
         };
     });
     return `
-    <div class="wrapper">
+    <div class="bookmark-wrapper wrapper">
         ${bookmarksViewElements.join('')}
     </div>
     `
@@ -172,6 +173,7 @@ const filterBookmarksByRating = function() {
 };
 
 const render = function () {
+    console.log('render just ran');
     let bookmarks = [];
     if (store.filter > 0) {
         bookmarks = store.bookmarks.filter(bookmark => bookmark.rating >= store.filter);
