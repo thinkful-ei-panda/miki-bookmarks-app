@@ -19,20 +19,12 @@
     <main>
         <div class="wrapper">
             <div class="group">
-                <div class="right item">
-                    <button>add a bookmark</button>
-                </div>
-                <!-- <div class="right item">
-                    <button>expand all bookmarks</button>
-                </div>
-                <div class="right item">
-                    <button>collapse all bookmarks</button>
-                </div> -->
                 <div class="group-row">
-                    <p class="condensed-title">Rating here</p>
-                    <p class="condensed-title">Bookmark title here</p>
+                    <p class="js-bookmark-element" id="${bookmark.id}">Title</p>
+                    <p class="js-bookmark-element" id="${bookmark.id}">Rating</p>
                     <div class="right">
-                        <button class="expand">expand bookmark</button>
+                        <button class="js-delete">Delete</button>
+                        <button class="js-expand-and-collapse">Expand</button>
                     </div>
                 </div>
             </div>
