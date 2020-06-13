@@ -1,11 +1,13 @@
 const bookmarks = [];
 let adding = false;
+let edit = false;
 let error = null;
 let filter = 0;
 
 const addDataToUIStoreDatabase = function (data) {
     data.forEach(bookmark => {
         bookmark['expand'] = false;
+        bookmark['edit'] = false;
         this.bookmarks.push(bookmark);
     });
 }
@@ -15,7 +17,6 @@ const deleteCurrentTargetBookmark = function(currentTargetBookmark) {
     this.bookmarks.splice(currentTargetBookmarkIndex, 1);
 }
 
-// May break this function down further
 const findCurrentTargetBookmarkByID = function (bookmarkID) {
     return this.bookmarks.find(bookmark => bookmark.id == bookmarkID);
 }
@@ -37,6 +38,7 @@ const toggleStoreProperty = function (property) {
 export default {
     bookmarks,
     adding,
+    edit,
     error,
     filter,
     addDataToUIStoreDatabase,

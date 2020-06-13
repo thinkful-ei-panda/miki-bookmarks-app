@@ -11,10 +11,7 @@ const listAPIFetch = function (...args) {
             })
             .then(data => {
                 if(error) {
-                    // Always check API documentation on how to retrieve error message.
-                    // HTTP error message can be retrieved only after being parsed unlike HTTP code.
                     error.message = data.message;
-                    // Return error object 
                     return Promise.reject(error);
                 }
                 return data;
@@ -35,6 +32,16 @@ const post = function(jsonStringifiedFormData) {
     });
 }
 
+const patch = function(jsonStringifiedFormData, bookmarkID) {
+    return listAPIFetch(`${BASE_URL}/${bookmarkID}`, {
+        'method': 'PATCH',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': jsonStringifiedFormData
+    });
+}
+
 const deleteAPI = function (bookmarkID) {
     return listAPIFetch(`${BASE_URL}/${bookmarkID}`, {'method': 'DELETE'});
 }
@@ -43,5 +50,6 @@ export default {
     listAPIFetch,
     get,
     post,
+    patch,
     deleteAPI
 }

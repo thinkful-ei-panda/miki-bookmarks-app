@@ -3,11 +3,11 @@ import api from './api.js';
 
 const htmlGenerator = function (bookmarks) {
     if (store.adding) {
-        $('.js-add').text('cancel')
+        $('.js-add').text('Cancel')
         return addBookmarkView();
     } else {
-        $('.js-add').text('add a bookmark')
-        return bookmarksViewHTMLGenerator(bookmarks);
+        $('.js-add').text('Add Bookmark')
+        return bookmarksView(bookmarks);
     }
 }
 
@@ -64,7 +64,7 @@ const addBookmarkView = function() {
         </div>`
 }
 
-const bookmarksViewHTMLGenerator = function (bookmarks) {
+const bookmarksView = function (bookmarks) {
     const bookmarksElements = bookmarks.map(bookmark => {
         if (bookmark.expand) {
             return `
@@ -72,8 +72,8 @@ const bookmarksViewHTMLGenerator = function (bookmarks) {
                 <div class="group-row">
                     <p class="js-bookmark-element" id="${bookmark.id}">${bookmark.title}</p>
                     <div class="right">
-                        <button class="delete">delete bookmark</button>
-                        <button class="js-expand-and-collapse">collapse bookmark</button>
+                        <button class="delete">delete</button>
+                        <button class="js-expand-and-collapse">collapse</button>
                     </div>
                 </div>
                 <div class="item">
@@ -83,7 +83,7 @@ const bookmarksViewHTMLGenerator = function (bookmarks) {
                     <a href="${bookmark.url}" id="${bookmark.id}">${bookmark.url}</a>
                 </div>
                 <div class="item">
-                    <p class="js-bookmark-element left" id="${bookmark.id}">${bookmark.url}</p>
+                    <p class="js-bookmark-element left" id="${bookmark.id}">${bookmark.desc}</p>
                 </div>
             </div>
             `
@@ -116,7 +116,6 @@ const expandAndCollapseBookmark = function () {
         const bookmarkID = $(event.currentTarget).closest('.group-row').find('.js-bookmark-element').attr('id');
         const currentTargetBookmark = store.findCurrentTargetBookmarkByID(bookmarkID);
         store.toggleBookmarkProperty(currentTargetBookmark, 'expand');
-        api.deleteAPI(bookmarkID);
         render();
     })
 }
@@ -134,6 +133,7 @@ const deleteBookmark = function () {
 const addBookmark = function() {
     $('.js-add').click(event => {
         store.toggleStoreProperty('adding');
+        store.error = null;
         render();
     })
 }
@@ -152,7 +152,6 @@ const submitAddBookmarkForm = function() {
         const jsonStringifiedFormData = ($('#js-add-bookmark-form').serializeJSON());
         api.post(jsonStringifiedFormData)
           .then(data => {
-              console.log(data);
               data['expand'] = false;
               store.bookmarks.push(data);
               store.toggleStoreProperty('adding');
@@ -165,11 +164,8 @@ const submitAddBookmarkForm = function() {
     })
 }
 
-
-
 const filterBookmarkByRating = function() {
     $('[name="js-filter-by-rating"]').change(event => {
-        console.log($('option:selected').val())
         store.filter = $('option:selected').val();
         render();
     })

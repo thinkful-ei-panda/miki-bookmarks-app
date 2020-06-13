@@ -14,6 +14,4 @@ const main = () => {
     bookmarkList.render();
 };
 
-
-
 $(main)
