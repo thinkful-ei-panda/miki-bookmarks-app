@@ -65,7 +65,6 @@ const generateAddBookmarkView = function() {
 };
 
 const generateBookmarksView = function (bookmarks) {
-    console.log('generateBookmarksView just ran')
     const bookmarksViewElements = bookmarks.map(bookmark => {
         if (bookmark.expand) {
             return `
@@ -78,7 +77,7 @@ const generateBookmarksView = function (bookmarks) {
                     </div>
                 </div>
                 <div class="item">
-                    <p class="js-bookmark-element left" id="${bookmark.id}">${bookmark.rating}</p>
+                    <p class="js-bookmark-element left" id="${bookmark.id}">Rating: ${generateBookmarkRating(bookmark.rating)}</p>
                 </div>
                 <div class="item">
                     <p class="js-bookmark-element left"><a href="${bookmark.url}" id="${bookmark.id}">${bookmark.url}</a></p>
@@ -93,7 +92,7 @@ const generateBookmarksView = function (bookmarks) {
             <div class="bookmark-group">
                 <div class="bookmark-group-row">
                     <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
-                    <p class="align-self js-bookmark-element" id="${bookmark.id}">Rating: ${bookmark.rating}</p>
+                    <p class="align-self js-bookmark-element" id="${bookmark.id}">Rating: ${generateBookmarkRating(bookmark.rating)}</p>
                     <div class="right">
                         <button class="js-delete">Delete</button>
                         <button class="js-expand-and-collapse">Expand</button>
@@ -109,6 +108,14 @@ const generateBookmarksView = function (bookmarks) {
     </div>
     `
 };
+
+const generateBookmarkRating = function(rating) {
+    let bookmarkRating = ""
+    for (let i = 0; i < rating; i++) {
+        bookmarkRating += `<img src="images/star.jpg" alt="star">`
+    }
+    return bookmarkRating;
+}
 
 const addBookmark = function() {
     $('.js-add').click(event => {
@@ -173,7 +180,6 @@ const filterBookmarksByRating = function() {
 };
 
 const render = function () {
-    console.log('render just ran');
     let bookmarks = [];
     if (store.filter > 0) {
         bookmarks = store.bookmarks.filter(bookmark => bookmark.rating >= store.filter);

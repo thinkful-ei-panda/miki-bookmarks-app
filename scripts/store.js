@@ -1,6 +1,5 @@
 const bookmarks = [];
 let adding = false;
-let edit = false;
 let error = null;
 let filter = 0;
 
@@ -38,7 +37,6 @@ const toggleStoreProperty = function (property) {
 export default {
     bookmarks,
     adding,
-    edit,
     error,
     filter,
     addBookmarkToUIStoreDatabase,

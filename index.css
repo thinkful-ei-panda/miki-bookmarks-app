@@ -139,7 +139,10 @@ button:hover {
     color: #FFF;
 }
 
-/* Form Styles */
+img {
+    width: 15px;
+}
+
 form > label, input, select, textarea {
     margin: 2px;
 }
