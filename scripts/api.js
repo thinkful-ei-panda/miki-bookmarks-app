@@ -1,4 +1,4 @@
-const BASE_URL = 'https://thinkful-list-api.herokuapp.com/mischkiey/bookmarks'
+const BASE_URL = 'https://thinkful-list-api.herokuapp.com/mischkiey/bookmarks';
 
 const listAPIFetch = function (...args) {
     let error;
@@ -20,7 +20,7 @@ const listAPIFetch = function (...args) {
 
 const get = function () {
     return listAPIFetch(`${BASE_URL}`);
-}
+};
 
 const post = function(jsonStringifiedFormData) {
     return listAPIFetch(`${BASE_URL}`, {
@@ -30,7 +30,7 @@ const post = function(jsonStringifiedFormData) {
         },
         'body': jsonStringifiedFormData
     });
-}
+};
 
 const patch = function(jsonStringifiedFormData, bookmarkID) {
     return listAPIFetch(`${BASE_URL}/${bookmarkID}`, {
@@ -40,16 +40,24 @@ const patch = function(jsonStringifiedFormData, bookmarkID) {
         },
         'body': jsonStringifiedFormData
     });
-}
+};
 
 const deleteAPI = function (bookmarkID) {
     return listAPIFetch(`${BASE_URL}/${bookmarkID}`, {'method': 'DELETE'});
-}
+};
+
+// const serializeJSON = function() {
+//     const formData = new FormData(this[0]);
+//     const jsFormData = {};
+//     formData.forEach((val, name) => jsFormData[name] = val);
+//     return JSON.stringify(jsFormData);
+// }
 
 export default {
     listAPIFetch,
     get,
     post,
     patch,
-    deleteAPI
+    deleteAPI,
+    // serializeJSON
 }

@@ -5,7 +5,7 @@ import store from './store.js'
 const main = () => {
     api.get()
         .then(data => {
-            store.addDataToUIStoreDatabase(data);
+            store.addBookmarkToUIStoreDatabase(data);
             bookmarkList.render();
         })
         // .catch(error => showErrorFeedback)

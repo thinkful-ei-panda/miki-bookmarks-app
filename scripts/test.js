@@ -1,18 +1,20 @@
+// Test space for extension user story
+
 const htmlGenerator = function (bookmarks) {
     if (store.adding) {
         $('.js-add').text('cancel')
-        return addBookmarkView();
+        return generateAddBookmarkView();
     } else if (store.edit) {
         $('.js-add').text('add a bookmark')
-        return editBookmarkView(bookmarks);
+        return generateEditBookmarkView(bookmarks);
     } else {
         $('.js-add').text('add a bookmark')
-        return bookmarksView(bookmarks);
-    }
-}
+        return generateBookmarksView(bookmarks);
+    };
+};
 
-const editBookmarkView = function (bookmarks) {
-    const bookmarksElements = bookmarks.map(bookmark => {
+const generateBookmarksView = function (bookmarks) {
+    const bookmarksViewElements = bookmarks.map(bookmark => {
         if (bookmark.edit) {
             return `
             <div class="group">
@@ -76,7 +78,7 @@ const editBookmarkView = function (bookmarks) {
 
     return `
     <div class="wrapper">
-        ${bookmarksElements.join('')}
+        ${bookmarksViewElements.join('')}
     </div>
     `
 
@@ -88,7 +90,6 @@ const editBookmark = function () {
         const currentTargetBookmark = store.findCurrentTargetBookmarkByID(bookmarkID);
         store.toggleStoreProperty('edit');
         store.toggleBookmarkProperty(currentTargetBookmark, 'edit');
-        console.log('editBookmark just ran')
         render();
     })
 }
@@ -97,6 +98,7 @@ const editBookmarkForm = function() {
     $('.js-bookmarks-list').on('submit', '#js-edit-bookmark-form', event => {
         event.preventDefault();
         const bookmarkID = $(event.currentTarget).closest('.group-row').find('.js-bookmark-element').attr('id');
+
         $.fn.extend({
             serializeJSON: function() {
               const formData = new FormData(this[0]);
@@ -106,9 +108,9 @@ const editBookmarkForm = function() {
             }
           });
         const jsonStringifiedFormData = ($('#js-edit-bookmark-form').serializeJSON());
+
         api.patch(jsonStringifiedFormData, bookmarkID)
           .then(data => {
-              console.log(data);
               data['expand'] = false;
               const editThisBookmark = store.bookmarks.find(bookmark => bookmark.id === data.id);
               Object.assign(editThisBookmark, data);
@@ -119,6 +121,6 @@ const editBookmarkForm = function() {
               console.log(error.message)
               store.error = error.message;
               render();
-            })
-    })
-}
+            });
+    });
+};

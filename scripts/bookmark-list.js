@@ -1,17 +1,17 @@
 import store from './store.js'
 import api from './api.js';
 
-const htmlGenerator = function (bookmarks) {
+const mainHTMLGenerator = function (bookmarks) {
     if (store.adding) {
-        $('.js-add').text('Cancel')
-        return addBookmarkView();
+        $('.js-add').text('Cancel');
+        return generateAddBookmarkView();
     } else {
-        $('.js-add').text('Add Bookmark')
-        return bookmarksView(bookmarks);
-    }
-}
+        $('.js-add').text('Add Bookmark');
+        return generateBookmarksView(bookmarks);
+    };
+};
 
-const addBookmarkView = function() {
+const generateAddBookmarkView = function() {
     if (store.error) {
         return `
         <div class="wrapper">
@@ -38,7 +38,7 @@ const addBookmarkView = function() {
                 </div>
             </form>
         </div>`
-    }
+    };
 
     return `
     <div class="wrapper">
@@ -62,17 +62,17 @@ const addBookmarkView = function() {
                 </div>
             </form>
         </div>`
-}
+};
 
-const bookmarksView = function (bookmarks) {
-    const bookmarksElements = bookmarks.map(bookmark => {
+const generateBookmarksView = function (bookmarks) {
+    const bookmarksViewElements = bookmarks.map(bookmark => {
         if (bookmark.expand) {
             return `
             <div class="group">
                 <div class="group-row">
                     <p class="js-bookmark-element" id="${bookmark.id}">${bookmark.title}</p>
                     <div class="right">
-                        <button class="delete">delete</button>
+                        <button class="js-delete">delete</button>
                         <button class="js-expand-and-collapse">collapse</button>
                     </div>
                 </div>
@@ -102,33 +102,12 @@ const bookmarksView = function (bookmarks) {
         `
         };
     });
-
     return `
     <div class="wrapper">
-        ${bookmarksElements.join('')}
+        ${bookmarksViewElements.join('')}
     </div>
     `
-
-}
-
-const expandAndCollapseBookmark = function () {
-    $('.js-bookmarks-list').on('click', '.js-expand-and-collapse', event => {
-        const bookmarkID = $(event.currentTarget).closest('.group-row').find('.js-bookmark-element').attr('id');
-        const currentTargetBookmark = store.findCurrentTargetBookmarkByID(bookmarkID);
-        store.toggleBookmarkProperty(currentTargetBookmark, 'expand');
-        render();
-    })
-}
-
-const deleteBookmark = function () {
-    $('.js-bookmarks-list').on('click', '.js-delete', event => {
-        const bookmarkID = $(event.currentTarget).closest('.group-row').find('.js-bookmark-element').attr('id');
-        const currentTargetBookmark = store.findCurrentTargetBookmarkByID(bookmarkID);
-        store.deleteCurrentTargetBookmark(currentTargetBookmark);
-        api.deleteAPI(bookmarkID);
-        render();
-    })
-}
+};
 
 const addBookmark = function() {
     $('.js-add').click(event => {
@@ -136,11 +115,12 @@ const addBookmark = function() {
         store.error = null;
         render();
     })
-}
+};
 
 const submitAddBookmarkForm = function() {
     $('.js-bookmarks-list').on('submit', '#js-add-bookmark-form', event => {
         event.preventDefault();
+
         $.fn.extend({
             serializeJSON: function() {
               const formData = new FormData(this[0]);
@@ -148,8 +128,9 @@ const submitAddBookmarkForm = function() {
               formData.forEach((val, name) => jsFormData[name] = val);
               return JSON.stringify(jsFormData);
             }
-          });
+        });
         const jsonStringifiedFormData = ($('#js-add-bookmark-form').serializeJSON());
+
         api.post(jsonStringifiedFormData)
           .then(data => {
               data['expand'] = false;
@@ -160,16 +141,35 @@ const submitAddBookmarkForm = function() {
           .catch(error => {
               store.error = error.message;
               render();
-            })
-    })
-}
+            });
+    });
+};
 
-const filterBookmarkByRating = function() {
+const deleteBookmark = function () {
+    $('.js-bookmarks-list').on('click', '.js-delete', event => {
+        const bookmarkID = $(event.currentTarget).closest('.group-row').find('.js-bookmark-element').attr('id');
+        const currentBookmark = store.findCurrentBookmarkByID(bookmarkID);
+        store.removeBookmarkFromUIStoreDatabase(currentBookmark);
+        api.deleteAPI(bookmarkID);
+        render();
+    })
+};
+
+const expandAndCollapseBookmark = function () {
+    $('.js-bookmarks-list').on('click', '.js-expand-and-collapse', event => {
+        const bookmarkID = $(event.currentTarget).closest('.group-row').find('.js-bookmark-element').attr('id');
+        const currentBookmark = store.findCurrentBookmarkByID(bookmarkID);
+        store.toggleBookmarkProperty(currentBookmark, 'expand');
+        render();
+    });
+};
+
+const filterBookmarksByRating = function() {
     $('[name="js-filter-by-rating"]').change(event => {
         store.filter = $('option:selected').val();
         render();
-    })
-}
+    });
+};
 
 const render = function () {
     let bookmarks = [];
@@ -178,16 +178,16 @@ const render = function () {
     } else {
         bookmarks = store.bookmarks;
     }
-    const currentView = htmlGenerator(bookmarks);
+    const currentView = mainHTMLGenerator(bookmarks);
     $('.js-bookmarks-list').html(currentView);
-}
+};
 
 const bindEventListeners = function () {
-    expandAndCollapseBookmark();
-    deleteBookmark();
     addBookmark();
+    deleteBookmark();
+    expandAndCollapseBookmark();
+    filterBookmarksByRating();
     submitAddBookmarkForm();
-    filterBookmarkByRating();
 }
 
 export default {

@@ -4,30 +4,30 @@ let edit = false;
 let error = null;
 let filter = 0;
 
-const addDataToUIStoreDatabase = function (data) {
+const addBookmarkToUIStoreDatabase = function (data) {
     data.forEach(bookmark => {
         bookmark['expand'] = false;
         bookmark['edit'] = false;
         this.bookmarks.push(bookmark);
     });
-}
+};
 
-const deleteCurrentTargetBookmark = function(currentTargetBookmark) {
+const removeBookmarkFromUIStoreDatabase = function(currentTargetBookmark) {
     const currentTargetBookmarkIndex = this.bookmarks.findIndex(bookmark => bookmark == currentTargetBookmark);
     this.bookmarks.splice(currentTargetBookmarkIndex, 1);
-}
+};
 
-const findCurrentTargetBookmarkByID = function (bookmarkID) {
+const findCurrentBookmarkByID = function (bookmarkID) {
     return this.bookmarks.find(bookmark => bookmark.id == bookmarkID);
-}
+};
 
 const toggleBookmarkProperty = function (object, property) {
     object[property] = !object[property];
-}
+};
 
 const toggleStoreProperty = function (property) {
     this[property] = !this[property];
-}
+};
 
 // const setStoreErrorMessage = function (errorMessage) {
 //     store.error = errorMessage;
@@ -41,9 +41,9 @@ export default {
     edit,
     error,
     filter,
-    addDataToUIStoreDatabase,
-    deleteCurrentTargetBookmark,
-    findCurrentTargetBookmarkByID,
+    addBookmarkToUIStoreDatabase,
+    removeBookmarkFromUIStoreDatabase,
+    findCurrentBookmarkByID,
     toggleBookmarkProperty,
     toggleStoreProperty
 }
