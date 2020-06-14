@@ -1,5 +1,6 @@
 const bookmarks = [];
 let adding = false;
+// let edit = false;
 let error = null;
 let filter = 0;
 
@@ -10,6 +11,10 @@ const addBookmarkToUIStoreDatabase = function (data) {
         this.bookmarks.push(bookmark);
     });
 };
+
+const editBookmarkInUIStoreDatabase = function (currentTargetBookmark, editedBookmark) {
+    Object.assign(currentTargetBookmark, editedBookmark)
+}
 
 const removeBookmarkFromUIStoreDatabase = function(currentTargetBookmark) {
     const currentTargetBookmarkIndex = this.bookmarks.findIndex(bookmark => bookmark == currentTargetBookmark);
@@ -28,18 +33,14 @@ const toggleStoreProperty = function (property) {
     this[property] = !this[property];
 };
 
-// const setStoreErrorMessage = function (errorMessage) {
-//     store.error = errorMessage;
-// }
-
-// const showErrorFeedback;
-
 export default {
     bookmarks,
     adding,
+    // edit,
     error,
     filter,
     addBookmarkToUIStoreDatabase,
+    editBookmarkInUIStoreDatabase,
     removeBookmarkFromUIStoreDatabase,
     findCurrentBookmarkByID,
     toggleBookmarkProperty,

@@ -11,6 +11,19 @@ const mainHTMLGenerator = function (bookmarks) {
     };
 };
 
+// const mainHTMLGenerator = function (bookmarks) {
+//     if (store.adding) {
+//         $('.js-add').text('Cancel')
+//         return generateAddBookmarkView();
+//     } else if (store.edit) {
+//         $('.js-add').text('Add a Bookmark')
+//         return generateEditBookmarkView(bookmarks);
+//     } else {
+//         $('.js-add').text('Add a Bookmark')
+//         return generateBookmarksView(bookmarks);
+//     };
+// };
+
 const generateAddBookmarkView = function() {
     if (store.error) {
         return `
@@ -33,9 +46,7 @@ const generateAddBookmarkView = function() {
                 <input class="item" id ="url" name="url" placeholder="URL" type="text" required>
                 <label class="item" for="desc">Description</label>
                 <textarea class="item" id="desc" name="desc" placeholder="Description" rows="10" type="text"></textarea>
-                <div class="center item">
-                    <button class="">submit</button>
-                </div>
+                <button class="">submit</button>
             </form>
         </div>`
     };
@@ -57,16 +68,69 @@ const generateAddBookmarkView = function() {
                 <input class="item" id ="url" name="url" placeholder="URL" type="text" required>
                 <label class="item" for="desc">Description</label>
                 <textarea class="item" id="desc" name="desc" placeholder="Description" rows="10" type="text"></textarea>
-                <div class="center item">
-                    <button class="">submit</button>
-                </div>
+                <button class="submit">Add New Bookmark</button>
             </form>
         </div>`
 };
 
 const generateBookmarksView = function (bookmarks) {
     const bookmarksViewElements = bookmarks.map(bookmark => {
-        if (bookmark.expand) {
+        if (bookmark.edit && store.error) {
+            return `
+            <div class="bookmark-group">
+                <div class="bookmark-group-row full-width">
+                    <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
+                    <div class="right">
+                        <button class="js-edit">Cancel</button>
+                        <button class="js-delete">Delete</button>
+                    </div>
+                </div>
+                <p class="js-bookmark-element left"><a href="${bookmark.url}" id="${bookmark.id}">${bookmark.url}</a></p>
+                <div class="error item">
+                    <p class="left">*Something's not quite right: ${store.error}</p>
+                </div>
+                <form class="bookmark-group-column" id="js-edit-bookmark-form">
+                    <label class="item" for="rating">Rating</label>
+                    <select class="item" id="rating" name="rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <label class="item" for="desc">Description</label>
+                    <textarea class="item" id="desc" name="desc" placeholder="Enter new description" rows="10" type="text"></textarea>
+                    <button class="submit">Submit Changes</button>
+                </form>
+            </div>
+            `
+        } else if (bookmark.edit) {
+            return `
+            <div class="bookmark-group">
+                <div class="bookmark-group-row full-width">
+                    <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
+                    <div class="right">
+                        <button class="js-edit">Cancel</button>
+                        <button class="js-delete">Delete</button>
+                    </div>
+                </div>
+                <p class="js-bookmark-element left"><a href="${bookmark.url}" id="${bookmark.id}">${bookmark.url}</a></p>
+                <form class="bookmark-group-column" id="js-edit-bookmark-form">
+                    <label class="item" for="rating">Rating</label>
+                    <select class="item" id="rating" name="rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <label class="item" for="desc">Description</label>
+                    <textarea class="item" id="desc" name="desc" placeholder="Enter new description" rows="10" type="text"></textarea>
+                    <button class="submit">Submit Changes</button>
+                </form>
+            </div>
+            `
+        } else if (bookmark.expand) {
             return `
             <div class="bookmark-group">
                 <div class="bookmark-group-row full-width">
@@ -92,7 +156,7 @@ const generateBookmarksView = function (bookmarks) {
             return `
             <div class="bookmark-group">
                 <div class="bookmark-group-row">
-                    <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title} ${generateBookmarkRating(bookmark.rating)}</h2>
+                    <h2 class="align-self item-shrink-left js-bookmark-element" id="${bookmark.id}">${bookmark.title} ${generateBookmarkRating(bookmark.rating)}</h2>
                     <div class="right">
                         <button class="js-edit">Edit</button>
                         <button class="js-delete">Delete</button>
@@ -138,11 +202,12 @@ const submitAddBookmarkForm = function() {
               return JSON.stringify(jsFormData);
             }
         });
-        const jsonStringifiedFormData = ($('#js-add-bookmark-form').serializeJSON());
+        const jsonStringifiedFormData = $('#js-add-bookmark-form').serializeJSON();
 
         api.post(jsonStringifiedFormData)
           .then(data => {
               data['expand'] = false;
+              data['edit'] = false;
               store.bookmarks.push(data);
               store.toggleStoreProperty('adding');
               render();
@@ -150,6 +215,54 @@ const submitAddBookmarkForm = function() {
           .catch(error => {
               store.error = error.message;
               render();
+            });
+    });
+};
+
+const editBookmark = function() {
+    $('.js-bookmarks-list').on('click', '.js-edit', event => {
+        const bookmarkID = $(event.currentTarget).closest('.bookmark-group-row').find('.js-bookmark-element').attr('id');
+        const currentBookmark = store.findCurrentBookmarkByID(bookmarkID);
+        store.toggleBookmarkProperty(currentBookmark, 'edit');
+        store.error = null;
+        render();
+    })
+}
+
+const submitEditBookmarkForm = function () {
+    $('.js-bookmarks-list').on('submit', '#js-edit-bookmark-form', event => {
+        event.preventDefault();
+
+        const bookmarkID = $(event.currentTarget).closest('.bookmark-group').find('.js-bookmark-element').attr('id');
+        const currentTargetBookmark = store.findCurrentBookmarkByID(bookmarkID);
+        const editedBookmark = store.findCurrentBookmarkByID(bookmarkID)
+        console.log(currentTargetBookmark);
+        console.log(editedBookmark);
+
+        $.fn.extend({
+            serializeJSON: function() {
+              const formData = new FormData(this[0]);
+              const jsFormData = {};
+              formData.forEach((val, name) => jsFormData[name] = val);   
+              return jsFormData           
+            }
+        });
+        const jsFormData = $('#js-edit-bookmark-form').serializeJSON();
+        console.log(jsFormData['rating'])
+        editedBookmark['rating'] = jsFormData['rating'];
+        editedBookmark['desc'] = jsFormData['desc'];
+        store.editBookmarkInUIStoreDatabase(currentTargetBookmark, editedBookmark);
+        const jsonStringifiedFormData = JSON.stringify(jsFormData);
+
+        api.patch(jsonStringifiedFormData, bookmarkID)
+            .then(() => {
+                store.error = null;
+                store.toggleBookmarkProperty(currentTargetBookmark, 'edit')
+                render()
+            })
+            .catch(error => {
+                store.error = error.message;
+                render();
             });
     });
 };
@@ -193,10 +306,12 @@ const render = function () {
 
 const bindEventListeners = function () {
     addBookmark();
+    editBookmark();
     deleteBookmark();
     expandAndCollapseBookmark();
     filterBookmarksByRating();
     submitAddBookmarkForm();
+    submitEditBookmarkForm();
 }
 
 export default {

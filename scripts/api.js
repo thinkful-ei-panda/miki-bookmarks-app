@@ -46,18 +46,10 @@ const deleteAPI = function (bookmarkID) {
     return listAPIFetch(`${BASE_URL}/${bookmarkID}`, {'method': 'DELETE'});
 };
 
-// const serializeJSON = function() {
-//     const formData = new FormData(this[0]);
-//     const jsFormData = {};
-//     formData.forEach((val, name) => jsFormData[name] = val);
-//     return JSON.stringify(jsFormData);
-// }
-
 export default {
     listAPIFetch,
     get,
     post,
     patch,
     deleteAPI,
-    // serializeJSON
 }

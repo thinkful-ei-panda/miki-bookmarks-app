@@ -5,7 +5,6 @@ body {
     background-image: url(./images/flat-lay.jpg);
     background-position: center;
     background-size: cover;
-    font-family: 'Playfair-Display', serif;
     font-size: 12px;
     margin-top: 15px;
 }
@@ -51,6 +50,14 @@ body {
     width: 90%;
 }
 
+.bookmark-group-column {
+    /* border-radius: 3px; */
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    margin: auto;
+}
+
 .control-group-row {
     display: flex;
     flex-flow: row;
@@ -65,15 +72,17 @@ body {
     display: flex;
     flex-flow: row;
     justify-content: space-between;
-    /* padding: 10px; */
     width: 100%;
     margin: auto;
-    /* border: 1px solid blue; */
 }
 
 .item {
     flex: 1;
-    /* border: 1px solid yellow; */
+}
+
+.item-shrink-left {
+    flex-shrink: 10;
+    text-align: left;
 }
 
 .align-self {
@@ -102,7 +111,7 @@ h1 {
 
 h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     margin: 0;
     text-align: center;
@@ -140,18 +149,25 @@ button:hover {
 }
 
 img {
-    width: 15px;
+    width: 10px;
 }
 
 form > label, input, select, textarea {
+    font-family: 'Playfair Display', serif;
     margin: 2px;
 }
 
-form > .error {
+.error {
     border: 2px solid #C70039;
     border-radius: 5px;
     color: #c70039; 
 }
+
+ label, input, select, textarea {
+    font-family: 'Playfair Display', serif;
+    margin: 2px;
+}
+
 
 footer div.group {
     background-color :#0E1A46;
@@ -169,6 +185,11 @@ footer div.group {
     .header-wrapper, .bookmark-wrapper {
         margin: auto;
         width: 50%;
+    }
+
+    .item {
+        flex: 1;
+        /* border: 1px solid yellow; */
     }
 
     h1 {
@@ -190,7 +211,15 @@ footer div.group {
         font-size: 14px;
     }
 
+    img {
+        width: 15px;
+    }
+
     form > label, input, select, textarea {
+        margin: 5px;
+    }
+
+    label, input, select, textarea {
         margin: 5px;
     }
 }
