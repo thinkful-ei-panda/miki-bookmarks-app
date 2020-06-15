@@ -22,14 +22,8 @@ const get = function () {
     return listAPIFetch(`${BASE_URL}`);
 };
 
-const post = function(jsonStringifiedFormData) {
-    return listAPIFetch(`${BASE_URL}`, {
-        'method': 'POST',
-        'headers': {
-            'Content-Type': 'application/json'
-        },
-        'body': jsonStringifiedFormData
-    });
+const deleteAPI = function (bookmarkID) {
+    return listAPIFetch(`${BASE_URL}/${bookmarkID}`, {'method': 'DELETE'});
 };
 
 const patch = function(jsonStringifiedFormData, bookmarkID) {
@@ -42,14 +36,20 @@ const patch = function(jsonStringifiedFormData, bookmarkID) {
     });
 };
 
-const deleteAPI = function (bookmarkID) {
-    return listAPIFetch(`${BASE_URL}/${bookmarkID}`, {'method': 'DELETE'});
+const post = function(jsonStringifiedFormData) {
+    return listAPIFetch(`${BASE_URL}`, {
+        'method': 'POST',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': jsonStringifiedFormData
+    });
 };
 
 export default {
     listAPIFetch,
     get,
-    post,
-    patch,
     deleteAPI,
+    patch,
+    post
 }

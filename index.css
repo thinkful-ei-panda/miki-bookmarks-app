@@ -10,6 +10,7 @@ body {
 }
 
 .header-wrapper {
+    background-color: #F1ECE6;
     border: 3px solid #011420;
     border-bottom: 0;
     border-radius: 5px 5px 0 0;
@@ -18,6 +19,7 @@ body {
 }
 
 .bookmark-wrapper {
+    background-color: #F1ECE6;
     border: 3px solid #011420;
     border-top: 0;
     border-radius: 0 0 5px 5px;
@@ -134,7 +136,7 @@ a:hover {
 }
 
 button {
-    /* background-color: #FFF; */
+    background-color: #F1ECE6;
     border: 2px solid #011420;
     border-radius: 5px;
     font-family: 'Playfair Display', serif;
@@ -145,14 +147,14 @@ button {
 
 button:hover {
     background-color: #011420;
-    color: #FFF;
+    color: #F1ECE6;
 }
 
 img {
     width: 10px;
 }
 
-form > label, input, select, textarea {
+label, input, select, textarea {
     font-family: 'Playfair Display', serif;
     margin: 2px;
 }
@@ -162,12 +164,6 @@ form > label, input, select, textarea {
     border-radius: 5px;
     color: #c70039; 
 }
-
- label, input, select, textarea {
-    font-family: 'Playfair Display', serif;
-    margin: 2px;
-}
-
 
 footer div.group {
     background-color :#0E1A46;
@@ -194,12 +190,10 @@ footer div.group {
 
     h1 {
         font-size: 30px;
-        margin: 0;
     }
     
     h2 {
         font-size: 20px;
-        margin: 0;
     }
     
     p {
@@ -213,10 +207,6 @@ footer div.group {
 
     img {
         width: 15px;
-    }
-
-    form > label, input, select, textarea {
-        margin: 5px;
     }
 
     label, input, select, textarea {

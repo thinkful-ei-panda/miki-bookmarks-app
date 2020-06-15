@@ -3,31 +3,21 @@ import api from './api.js';
 
 const mainHTMLGenerator = function (bookmarks) {
     if (store.adding) {
-        $('.js-add').text('Cancel');
+        $('.js-add').text('Cancel')
         return generateAddBookmarkView();
+    } else if (store.edit) {
+        $('.js-add').text('Add a Bookmark');
+        return generateEditBookmarkView();
     } else {
         $('.js-add').text('Add a Bookmark');
         return generateBookmarksView(bookmarks);
     };
 };
 
-// const mainHTMLGenerator = function (bookmarks) {
-//     if (store.adding) {
-//         $('.js-add').text('Cancel')
-//         return generateAddBookmarkView();
-//     } else if (store.edit) {
-//         $('.js-add').text('Add a Bookmark')
-//         return generateEditBookmarkView(bookmarks);
-//     } else {
-//         $('.js-add').text('Add a Bookmark')
-//         return generateBookmarksView(bookmarks);
-//     };
-// };
-
 const generateAddBookmarkView = function() {
     if (store.error) {
         return `
-        <div class="bookmark-wrapper">
+        <section class="bookmark-wrapper">
             <form class="bookmark-group" id="js-add-bookmark-form">
                 <div class="error item">
                     <p class="left">*Something's not quite right: ${store.error}</p>
@@ -48,11 +38,11 @@ const generateAddBookmarkView = function() {
                 <textarea class="item" id="desc" name="desc" placeholder="Description" rows="10" type="text"></textarea>
                 <button class="">submit</button>
             </form>
-        </div>`
+        </section>`
     };
 
     return `
-    <div class="bookmark-wrapper">
+    <section class="bookmark-wrapper">
             <form class="bookmark-group" id="js-add-bookmark-form">
                 <label class="item" for="title">Title</label>
                 <input class="item" id ="title" name="title" placeholder="Title" type="text" required>
@@ -70,69 +60,75 @@ const generateAddBookmarkView = function() {
                 <textarea class="item" id="desc" name="desc" placeholder="Description" rows="10" type="text"></textarea>
                 <button class="submit">Add New Bookmark</button>
             </form>
-        </div>`
+        </section>`
+};
+
+const generateEditBookmarkView = function(bookmark) {
+    if (store.error) {
+        return `
+            <div class="bookmark-wrapper">
+                <section class="bookmark-group">
+                    <div class="bookmark-group-row full width">
+                        <h2 class="align-self js-bookmark-element" id="${store.editBookmark.id}">${store.editBookmark.title}</h2>
+                        <div class="right">
+                            <button class="js-edit">Cancel</button>
+                        </div>
+                    </div>
+                    <p class="js-bookmark-element left"><a href="${store.editBookmark.url}" id="${store.editBookmark.id}">${store.editBookmark.url}</a></p>
+                    <div class="error item">
+                        <p class="left">*Something's not quite right: ${store.error}</p>
+                    </div>
+                    <form class="bookmark-group-column" id="js-edit-bookmark-form">
+                        <label class="item" for="rating">Rating</label>
+                        <select class="item" id="rating" name="rating">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <label class="item" for="desc">Description</label>
+                        <textarea class="item" id="desc" name="desc" placeholder="Enter new description" rows="10" type="text"></textarea>
+                        <button class="submit">Submit Changes</button>
+                    </form>
+                </section>
+            </div>
+            `
+    }
+
+    return `
+        <div class="bookmark-wrapper">
+            <section class="bookmark-group">
+                <div class="bookmark-group-row full-width">
+                    <h2 class="align-self js-bookmark-element" id="${store.editBookmark.id}">${store.editBookmark.title}</h2>
+                    <div class="right">
+                        <button class="js-edit">Cancel</button>
+                    </div>
+                </div>
+                <p class="js-bookmark-element left"><a href="${store.editBookmark.url}" id="${store.editBookmark.id}">${store.editBookmark.url}</a></p>
+                <form class="bookmark-group-column" id="js-edit-bookmark-form">
+                    <label class="item" for="rating">Rating</label>
+                    <select class="item" id="rating" name="rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <label class="item" for="desc">Description</label>
+                    <textarea class="item" id="desc" name="desc" placeholder="Enter new description" rows="10" type="text"></textarea>
+                    <button class="submit">Submit Changes</button>
+                </form>
+            </section>
+        </div>
+        `    
 };
 
 const generateBookmarksView = function (bookmarks) {
     const bookmarksViewElements = bookmarks.map(bookmark => {
-        if (bookmark.edit && store.error) {
+        if (bookmark.expand) {
             return `
-            <div class="bookmark-group">
-                <div class="bookmark-group-row full-width">
-                    <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
-                    <div class="right">
-                        <button class="js-edit">Cancel</button>
-                        <button class="js-delete">Delete</button>
-                    </div>
-                </div>
-                <p class="js-bookmark-element left"><a href="${bookmark.url}" id="${bookmark.id}">${bookmark.url}</a></p>
-                <div class="error item">
-                    <p class="left">*Something's not quite right: ${store.error}</p>
-                </div>
-                <form class="bookmark-group-column" id="js-edit-bookmark-form">
-                    <label class="item" for="rating">Rating</label>
-                    <select class="item" id="rating" name="rating">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <label class="item" for="desc">Description</label>
-                    <textarea class="item" id="desc" name="desc" placeholder="Enter new description" rows="10" type="text"></textarea>
-                    <button class="submit">Submit Changes</button>
-                </form>
-            </div>
-            `
-        } else if (bookmark.edit) {
-            return `
-            <div class="bookmark-group">
-                <div class="bookmark-group-row full-width">
-                    <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
-                    <div class="right">
-                        <button class="js-edit">Cancel</button>
-                        <button class="js-delete">Delete</button>
-                    </div>
-                </div>
-                <p class="js-bookmark-element left"><a href="${bookmark.url}" id="${bookmark.id}">${bookmark.url}</a></p>
-                <form class="bookmark-group-column" id="js-edit-bookmark-form">
-                    <label class="item" for="rating">Rating</label>
-                    <select class="item" id="rating" name="rating">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <label class="item" for="desc">Description</label>
-                    <textarea class="item" id="desc" name="desc" placeholder="Enter new description" rows="10" type="text"></textarea>
-                    <button class="submit">Submit Changes</button>
-                </form>
-            </div>
-            `
-        } else if (bookmark.expand) {
-            return `
-            <div class="bookmark-group">
+            <section class="bookmark-group">
                 <div class="bookmark-group-row full-width">
                     <h2 class="align-self js-bookmark-element" id="${bookmark.id}">${bookmark.title}</h2>
                     <div class="right">
@@ -150,11 +146,11 @@ const generateBookmarksView = function (bookmarks) {
                 <div class="item">
                     <p class="js-bookmark-element left" id="${bookmark.id}">${bookmark.desc}</p>
                 </div>
-            </div>
+            </section>
             `
         } else {
             return `
-            <div class="bookmark-group">
+            <section class="bookmark-group">
                 <div class="bookmark-group-row">
                     <h2 class="align-self item-shrink-left js-bookmark-element" id="${bookmark.id}">${bookmark.title} ${generateBookmarkRating(bookmark.rating)}</h2>
                     <div class="right">
@@ -163,10 +159,11 @@ const generateBookmarksView = function (bookmarks) {
                         <button class="js-expand-and-collapse">Expand</button>
                     </div>
                 </div>
-            </div>
+            </section>
         `
         };
     });
+    
     return `
     <div class="bookmark-wrapper">
         ${bookmarksViewElements.join('')}
@@ -175,20 +172,22 @@ const generateBookmarksView = function (bookmarks) {
 };
 
 const generateBookmarkRating = function(value) {
-    let bookmarkRating = ""
+    let bookmarkRating = "";
     for (let i = 0; i < value; i++) {
         bookmarkRating += `<img src="images/star.jpg" alt="star">`
     }
     return bookmarkRating;
-}
+};
 
 const addBookmark = function() {
     $('.js-add').click(event => {
-        store.toggleStoreProperty('adding');
+        store.toggleProperty(store, 'adding');
         store.error = null;
         render();
-    })
+    });
 };
+
+// How can I simplify this?
 
 const submitAddBookmarkForm = function() {
     $('.js-bookmarks-list').on('submit', '#js-add-bookmark-form', event => {
@@ -209,7 +208,7 @@ const submitAddBookmarkForm = function() {
               data['expand'] = false;
               data['edit'] = false;
               store.bookmarks.push(data);
-              store.toggleStoreProperty('adding');
+              store.toggleProperty(store, 'adding');
               render();
           })
           .catch(error => {
@@ -221,9 +220,10 @@ const submitAddBookmarkForm = function() {
 
 const editBookmark = function() {
     $('.js-bookmarks-list').on('click', '.js-edit', event => {
-        const bookmarkID = $(event.currentTarget).closest('.bookmark-group-row').find('.js-bookmark-element').attr('id');
+        const bookmarkID = $(event.currentTarget).closest('.bookmark-group').find('.js-bookmark-element').attr('id');
         const currentBookmark = store.findCurrentBookmarkByID(bookmarkID);
-        store.toggleBookmarkProperty(currentBookmark, 'edit');
+        store.toggleProperty(store, 'edit');
+        store.editBookmark = currentBookmark;
         store.error = null;
         render();
     })
@@ -232,12 +232,10 @@ const editBookmark = function() {
 const submitEditBookmarkForm = function () {
     $('.js-bookmarks-list').on('submit', '#js-edit-bookmark-form', event => {
         event.preventDefault();
-
-        const bookmarkID = $(event.currentTarget).closest('.bookmark-group').find('.js-bookmark-element').attr('id');
-        const currentTargetBookmark = store.findCurrentBookmarkByID(bookmarkID);
-        const editedBookmark = store.findCurrentBookmarkByID(bookmarkID)
-        console.log(currentTargetBookmark);
-        console.log(editedBookmark);
+        
+        const bookmarkID = store.editBookmark.id;
+        const currentTargetBookmark = store.editBookmark;
+        const editedBookmark = store.editBookmark;
 
         $.fn.extend({
             serializeJSON: function() {
@@ -247,8 +245,8 @@ const submitEditBookmarkForm = function () {
               return jsFormData           
             }
         });
+
         const jsFormData = $('#js-edit-bookmark-form').serializeJSON();
-        console.log(jsFormData['rating'])
         editedBookmark['rating'] = jsFormData['rating'];
         editedBookmark['desc'] = jsFormData['desc'];
         store.editBookmarkInUIStoreDatabase(currentTargetBookmark, editedBookmark);
@@ -256,8 +254,8 @@ const submitEditBookmarkForm = function () {
 
         api.patch(jsonStringifiedFormData, bookmarkID)
             .then(() => {
+                store.toggleProperty(store, 'edit')
                 store.error = null;
-                store.toggleBookmarkProperty(currentTargetBookmark, 'edit')
                 render()
             })
             .catch(error => {
@@ -269,7 +267,7 @@ const submitEditBookmarkForm = function () {
 
 const deleteBookmark = function () {
     $('.js-bookmarks-list').on('click', '.js-delete', event => {
-        const bookmarkID = $(event.currentTarget).closest('.bookmark-group-row').find('.js-bookmark-element').attr('id');
+        const bookmarkID = $(event.currentTarget).closest('.bookmark-group').find('.js-bookmark-element').attr('id');
         const currentBookmark = store.findCurrentBookmarkByID(bookmarkID);
         store.removeBookmarkFromUIStoreDatabase(currentBookmark);
         api.deleteAPI(bookmarkID);
@@ -279,9 +277,9 @@ const deleteBookmark = function () {
 
 const expandAndCollapseBookmark = function () {
     $('.js-bookmarks-list').on('click', '.js-expand-and-collapse', event => {
-        const bookmarkID = $(event.currentTarget).closest('.bookmark-group-row').find('.js-bookmark-element').attr('id');
+        const bookmarkID = $(event.currentTarget).closest('.bookmark-group').find('.js-bookmark-element').attr('id');
         const currentBookmark = store.findCurrentBookmarkByID(bookmarkID);
-        store.toggleBookmarkProperty(currentBookmark, 'expand');
+        store.toggleProperty(currentBookmark, 'expand');
         render();
     });
 };
@@ -306,8 +304,8 @@ const render = function () {
 
 const bindEventListeners = function () {
     addBookmark();
-    editBookmark();
     deleteBookmark();
+    editBookmark();
     expandAndCollapseBookmark();
     filterBookmarksByRating();
     submitAddBookmarkForm();
