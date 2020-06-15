@@ -165,6 +165,10 @@ label, input, select, textarea {
     color: #c70039; 
 }
 
+.white {
+    background-color: #FFF;
+}
+
 footer div.group {
     background-color :#0E1A46;
     border: 1px solid bisque;
