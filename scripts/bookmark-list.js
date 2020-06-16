@@ -187,8 +187,6 @@ const addBookmark = function() {
     });
 };
 
-// How can I simplify this?
-
 const submitAddBookmarkForm = function() {
     $('.js-bookmarks-list').on('submit', '#js-add-bookmark-form', event => {
         event.preventDefault();

@@ -16,8 +16,6 @@ const editBookmarkInUIStoreDatabase = function (currentTargetBookmark, editedBoo
     Object.assign(currentTargetBookmark, editedBookmark)
 }
 
-// Should I break this function down further?
-
 const removeBookmarkFromUIStoreDatabase = function(currentTargetBookmark) {
     const currentTargetBookmarkIndex = this.bookmarks.findIndex(bookmark => bookmark == currentTargetBookmark);
     this.bookmarks.splice(currentTargetBookmarkIndex, 1);
