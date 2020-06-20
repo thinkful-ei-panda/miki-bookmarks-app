@@ -1,4 +1,4 @@
-# Bookmarks App GitHub Repo URL: https://thinkful-ei-panda.github.io/miki-bookmarks-app/
+# Bookmarks App GitHub Repo URL: https://github.com/thinkful-ei-panda/miki-bookmarks-app/tree/gh-pages
 
 # Completed User Stories
 
