@@ -1,5 +1,7 @@
-# The following list contains all user stories that have been COMPLETED.
-# User Stories
+# Bookmarks App GitHub Repo URL: https://thinkful-ei-panda.github.io/miki-bookmarks-app/
+
+# Completed User Stories
+
 1. I can add bookmarks to my bookmark list
 2. Bookmarks contain title, url link, description, rating (1-5)
 3. I can see a list of my bookmarks when I first open the app

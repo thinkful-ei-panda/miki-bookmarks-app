@@ -52,6 +52,18 @@ body {
     width: 90%;
 }
 
+.error-group {
+    background-color: #FFF;
+    border: 2px dashed #011420;
+    border-radius: 5px;
+    display: flex;
+    flex-flow: column wrap;
+    margin: auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 90%;
+}
+
 .bookmark-group-column {
     /* border-radius: 3px; */
     display: flex;
@@ -160,7 +172,7 @@ label, input, select, textarea {
 }
 
 .error {
-    border: 2px solid #C70039;
+    border: 2px dashed #C70039;
     border-radius: 5px;
     color: #c70039; 
 }

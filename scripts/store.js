@@ -12,7 +12,7 @@ const addBookmarkToUIStoreDatabase = function (data) {
     });
 };
 
-const editBookmarkInUIStoreDatabase = function (currentTargetBookmark, editedBookmark) {
+const editBookmarkInUIStoreDatabase = function(currentTargetBookmark, editedBookmark) {
     Object.assign(currentTargetBookmark, editedBookmark)
 }
 
@@ -21,11 +21,11 @@ const removeBookmarkFromUIStoreDatabase = function(currentTargetBookmark) {
     this.bookmarks.splice(currentTargetBookmarkIndex, 1);
 };
 
-const findCurrentBookmarkByID = function (bookmarkID) {
+const findCurrentBookmarkByID = function(bookmarkID) {
     return this.bookmarks.find(bookmark => bookmark.id == bookmarkID);
 };
 
-const toggleProperty = function (object, property) {
+const toggleProperty = function(object, property) {
     object[property] = !object[property];
 };
 

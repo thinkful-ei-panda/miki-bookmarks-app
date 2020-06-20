@@ -22,7 +22,7 @@ const get = function () {
     return listAPIFetch(`${BASE_URL}`);
 };
 
-const deleteAPI = function (bookmarkID) {
+const deleteAPI = function(bookmarkID) {
     return listAPIFetch(`${BASE_URL}/${bookmarkID}`, {'method': 'DELETE'});
 };
 

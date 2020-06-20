@@ -8,6 +8,10 @@ const main = () => {
             store.addBookmarkToUIStoreDatabase(data);
             bookmarkList.render();
         })
+        .catch(error => {
+            store.error = error;
+            bookmarkList.render();
+        })
     
     bookmarkList.bindEventListeners();
     bookmarkList.render();
